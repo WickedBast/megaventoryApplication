@@ -1,14 +1,17 @@
 from datetime import date
 import requests
 
+# Base url & APIKEY
 api_base_url_post = "https://api.megaventory.com/v2017a/json/reply"
 api_key = "?APIKEY=59a80b0f6999f7a5@m103546"
 
+# Arrays and a set to get sale details
 salesID = []
 salesType = set()
 salesOrder = []
 
 
+# Get Product Details
 def productM():
     product_get = "/ProductGet"
     product_SKU = "&ProductSKU=1112256"
@@ -35,6 +38,7 @@ def productM():
             return product
 
 
+# Get Client Details
 def clientM():
     supplier_client_get = "/SupplierClientGet"
     client_filters = "&Filters=[{FieldName:SupplierClientType,SearchOperator:Equals,SearchValue:Client},{AndOr:And," \
@@ -64,6 +68,7 @@ def clientM():
             return client
 
 
+# Get Location Details
 def locationM():
     location_get = "/InventoryLocationGet"
     location_detail = "&Filters={FieldName:InventoryLocationName,SearchOperator:Equals,SearchValue:Main%20Location}"
@@ -87,6 +92,7 @@ def locationM():
         return locations
 
 
+# Get Tax Details
 def taxM():
     tax_get = "/TaxGet"
     tax_filters = "&Filters=[{FieldName:TaxValue,SearchOperator:Equals,SearchValue:24},{AndOr:And,FieldName:TaxName," \
@@ -110,6 +116,7 @@ def taxM():
             return tax
 
 
+# Get Discount Details
 def discountM():
     discount_get = "/DiscountGet"
     discount_filters = "&Filters=[{FieldName:DiscountValue,SearchOperator:Equals,SearchValue:50},{AndOr:And," \
@@ -135,6 +142,7 @@ def discountM():
             return discount
 
 
+# Get Sales Details
 def salesM():
     sales_get = "/SalesOrderGet"
 
@@ -155,6 +163,7 @@ def salesM():
             salesOrder.append(int(OrderNo))
 
 
+# Making the purchase
 def purchaseM(salesID, salesType, salesOrder, product, tax, client, discount, location):
     salesID.sort()
     nextID = salesID[len(salesID) - 1] + 1
@@ -214,6 +223,7 @@ def purchaseM(salesID, salesType, salesOrder, product, tax, client, discount, lo
         return nextID
 
 
+# Main Method
 if __name__ == '__main__':
     product = productM()
     location = locationM()
@@ -236,5 +246,6 @@ if __name__ == '__main__':
             results = data['mvSalesOrders']
             detail = results['SalesOrderDetails']
 
-            print(results['SalesOrderClientName'] + " bought " + results['SalesOrderTotalQuantity'] + " piece of " + product[2] +
+            print(results['SalesOrderClientName'] + " bought " + results['SalesOrderTotalQuantity'] + " piece of " +
+                  product[2] +
                   " for " + results['SalesOrderAmountGrandTotal'] + " at " + results['SalesOrderDate'])
