@@ -5,7 +5,7 @@ import requests
 api_base_url_post = "https://api.megaventory.com/v2017a/json/reply"
 api_key = "?APIKEY=59a80b0f6999f7a5@m103546"
 
-# Arrays and a set to get sale details
+# Lists and a set to get sale details
 salesID = []
 salesType = set()
 salesOrder = []
